@@ -151,7 +151,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="packing.cpp" />
     <ClCompile Include="ServerS.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="packing.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

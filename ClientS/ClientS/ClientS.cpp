@@ -6,6 +6,8 @@
 #include <string>
 #pragma warning(disable: 4996)
 
+#include "packing.h"
+
 class Timer
 {
 public:
@@ -52,6 +54,15 @@ struct data
 
 typedef struct data data;
 
+
+
+void sendData(union buffer buff_Rx, SOCKET Connection) {
+	send(Connection, (char *)&buff_Rx.byte0, sizeof(uint8_t), NULL);
+	send(Connection, (char *)&buff_Rx.byte1, sizeof(uint8_t), NULL);
+	send(Connection, (char *)&buff_Rx.byte2, sizeof(uint8_t), NULL);
+	send(Connection, (char *)&buff_Rx.byte3, sizeof(uint8_t), NULL);
+}
+
 void readPos(SOCKET Connection, position &pos)
 {
 	Timer T;
@@ -60,17 +71,22 @@ void readPos(SOCKET Connection, position &pos)
 	std::cout << "Enter the latitude:\n";
 	std::cin >> pos.latitude;
 	T.delay();
-	send(Connection, (char *)&pos.latitude, sizeof(float), NULL);
+	union buffer buff_Rx;
+	buff_Rx = packingData(pos.latitude);
+	sendData(buff_Rx, Connection);
+
 
 	std::cout << "Enter the longitude:\n";
 	std::cin >> pos.longitude;
 	T.delay();
-	send(Connection, (char *)&pos.longitude, sizeof(float), NULL);
+	buff_Rx = packingData(pos.longitude);
+	sendData(buff_Rx, Connection);
 
 	std::cout << "Enter the altitude:\n";
 	std::cin >> pos.altitude;
 	T.delay();
-	send(Connection, (char *)&pos.altitude, sizeof(float), NULL);
+	buff_Rx = packingData(pos.altitude);
+	sendData(buff_Rx, Connection);
 
 }
 
@@ -82,17 +98,21 @@ void readSpeed(SOCKET Connection, speedVector &spedV)
 	std::cout << "Enter the velocity vector by x:\n";
 	std::cin >> spedV.speedVectorX;
 	T.delay();
-	send(Connection, (char *)&spedV.speedVectorX, sizeof(float), NULL);
+	union buffer buff_Rx;
+	buff_Rx = packingData(spedV.speedVectorX);
+	sendData(buff_Rx, Connection);
 
 	std::cout << "Enter the velocity vector by y:\n";
 	std::cin >> spedV.speedVectorY;
 	T.delay();
-	send(Connection, (char *)&spedV.speedVectorY, sizeof(float), NULL);
+	buff_Rx = packingData(spedV.speedVectorY);
+	sendData(buff_Rx, Connection);
 
 	std::cout << "Enter the velocity vector by z:\n";
 	std::cin >> spedV.speedVectorZ;
 	T.delay();
-	send(Connection, (char *)&spedV.speedVectorZ, sizeof(float), NULL);
+	buff_Rx = packingData(spedV.speedVectorZ);
+	sendData(buff_Rx, Connection);
 
 }
 
@@ -104,17 +124,21 @@ void readAngle(SOCKET Connection, angularPosition &angPos)
 	std::cout << "Enter the roll:\n";
 	std::cin >> angPos.roll;
 	T.delay();
-	send(Connection, (char *)&angPos.roll, sizeof(float), NULL);
+	union buffer buff_Rx;
+	buff_Rx = packingData(angPos.roll);
+	sendData(buff_Rx, Connection);
 
 	std::cout << "Enter the pitch:\n";
 	std::cin >> angPos.pitch;
 	T.delay();
-	send(Connection, (char *)&angPos.pitch, sizeof(float), NULL);
+	buff_Rx = packingData(angPos.pitch);
+	sendData(buff_Rx, Connection);
 
 	std::cout << "Enter the yaw:\n";
 	std::cin >> angPos.yaw;
 	T.delay();
-	send(Connection, (char *)&angPos.yaw, sizeof(float), NULL);
+	buff_Rx = packingData(angPos.yaw);
+	sendData(buff_Rx, Connection);
 
 }
 
